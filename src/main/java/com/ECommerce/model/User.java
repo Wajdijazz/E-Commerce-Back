@@ -1,14 +1,18 @@
 package com.ECommerce.model;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.hibernate.annotations.NaturalId;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,16 +36,15 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-
 	@NotEmpty
 	private String email;
 	@NotEmpty
 	@Size(min = 3, message = "Length must be more than 3")
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private String password;
 	@NotEmpty
 	private String name;
-	private String phone;
-	private String address;
 	private boolean isActive;
-	private String role = "ROLE_CUSTOMER";
+	@ManyToMany(fetch = FetchType.EAGER)
+	private Collection<Role> roles = new ArrayList<>();
 }

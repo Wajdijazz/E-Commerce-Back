@@ -1,6 +1,8 @@
 package com.ECommerce.controller;
 
-import org.springframework.http.ResponseEntity;
+import java.util.List;
+
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,12 +25,13 @@ public class UserController {
 	
 	//I have also make a RestControlleradvice
 	@PostMapping("/register")
-	public ResponseEntity<UserDto> save(@RequestBody UserDto userDto) {
-		try {
-			return ResponseEntity.ok(userConverter.entityToDto(userService.saveUser(userDto)));
-		} catch (Exception e) {
-			return ResponseEntity.badRequest().build();
-		}
+	public UserDto saveUser(@RequestBody UserDto userDto) {
+		return userConverter.entityToDto(userService.saveUser(userDto));
+	}
+	
+	@GetMapping("/")
+	public List<UserDto> getUsers(@RequestBody UserDto userDto) {
+		return userConverter.entityListToDtoList(userService.getAllUsers());
 	}
 
 }

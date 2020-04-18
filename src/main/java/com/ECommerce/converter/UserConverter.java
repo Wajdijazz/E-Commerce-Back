@@ -15,11 +15,8 @@ public class UserConverter implements GenericsConverter<User, UserDto> {
 				.id(user.getId())
 				.name(user.getName())
 				.email(user.getEmail())
-				.address(user.getAddress())
-				.phone(user.getPhone())
 				.password(user.getPassword())
 				.isActive(user.isActive())
-				.role(user.getRole())
 				.build();
 	}
 
@@ -30,11 +27,8 @@ public class UserConverter implements GenericsConverter<User, UserDto> {
 				.id(userDto.getId())
 				.name(userDto.getName())
 				.email(userDto.getEmail())
-				.address(userDto.getAddress())
-				.phone(userDto.getPhone())
 				.password(userDto.getPassword())
 				.isActive(userDto.isActive())
-				.role(userDto.getRole())
 				.build();
 	}
 

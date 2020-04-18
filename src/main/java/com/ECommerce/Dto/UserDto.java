@@ -28,14 +28,10 @@ public class UserDto {
 
 	private String password;
 
-	private String name;
-	
-	private String phone;
+	private String confirmedPassword;
 
-	private String address;
+	private String name;
 
 	private boolean isActive;
-
-	private String role = "ROLE_CUSTOMER";
 
 }
