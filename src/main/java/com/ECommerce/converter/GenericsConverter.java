@@ -17,5 +17,6 @@ public interface GenericsConverter<Entity, Dto> {
 	default List<Entity> dtoListToEntityList(Collection<Dto> dtoList) {
 		return dtoList.stream().map(this::dtoToEntity).collect(Collectors.toList());
 	}
+	
 
 }
