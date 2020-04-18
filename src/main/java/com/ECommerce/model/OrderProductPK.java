@@ -1,7 +1,7 @@
 package com.ECommerce.model;
 
-import java.time.LocalDate;
-import java.util.List;
+import java.io.Serializable;
+
 
 import javax.persistence.Embeddable;
 import javax.persistence.FetchType;
@@ -20,7 +20,7 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 @EqualsAndHashCode
-public class OrderProductPK {
+public class OrderProductPK implements Serializable {
 
 	@JsonBackReference
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
