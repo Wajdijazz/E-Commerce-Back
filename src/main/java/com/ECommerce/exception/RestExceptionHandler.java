@@ -18,7 +18,7 @@ public class RestExceptionHandler {
 	}
 
 	@ExceptionHandler(value = { EntityNotFoundException.class })
-	public ResponseEntity EntityNotFound(EntityNotFoundException ex) {
+	public ResponseEntity entityNotFound(EntityNotFoundException ex) {
 		return ResponseEntity.status(ex.getErrCode()).body(ex.getErrMsg());
 	}
 }

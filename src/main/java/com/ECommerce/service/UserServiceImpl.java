@@ -1,6 +1,8 @@
 package com.ECommerce.service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.transaction.Transactional;
 
@@ -8,9 +10,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.ECommerce.Dto.UserDto;
-import com.ECommerce.converter.UserConverter;
 import com.ECommerce.dao.RoleRepository;
 import com.ECommerce.dao.UserRepository;
+import com.ECommerce.exception.ResourceNotFoundException;
 import com.ECommerce.model.Role;
 import com.ECommerce.model.User;
 
@@ -26,20 +28,15 @@ public class UserServiceImpl {
 	private PasswordEncoder passwordEncoder;
 
 	public User saveUser(UserDto userDto) {
-		User user = userRepository.findByEmail(userDto.getEmail());
-		if (user != null)
-			throw new RuntimeException("User already exists");
+		if (userRepository.findByEmail(userDto.getEmail()) != null)
+			throw new ResourceNotFoundException("User already exists");
 		if (!userDto.getPassword().equals(userDto.getConfirmedPassword()))
-			throw new RuntimeException("Please confirm your password");
-		User userSaved =User.builder()
-							.email(userDto.getEmail())
-							.name(userDto.getName())
-							.password(userDto.getPassword())
-							.isActive(true)
-				            .build();
-		userRepository.save(userSaved);
-		addRoleToUser(userDto.getEmail(), "USER");
-		return userSaved;
+			throw new ResourceNotFoundException("Please confirm your password");
+		User userSaved = User.builder().email(userDto.getEmail()).name(userDto.getName())
+				.password(passwordEncoder.encode(userDto.getPassword())).isActive(true).build();
+		addRoleToUser(userSaved, "USER");
+		return userRepository.save(userSaved);
+
 	}
 
 	public Role saveRole(Role role) {
@@ -50,13 +47,10 @@ public class UserServiceImpl {
 		return userRepository.findAll();
 	}
 
-	public void addRoleToUser(String email, String rolename) {
-		User appUser = userRepository.findByEmail(email);
+	public void addRoleToUser(User user, String rolename) {
 		Role appRole = roleRepository.findByRoleName(rolename);
-		appUser.getRoles().add(appRole);
-		User user=userRepository.save(appUser);
-		System.out.println(user);
-
-		
+		Set<Role> roles = new HashSet<>();
+		roles.add(appRole);
+		user.setRoles((roles));
 	}
 }

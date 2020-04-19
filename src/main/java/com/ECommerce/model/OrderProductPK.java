@@ -20,7 +20,7 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 @EqualsAndHashCode
-public class OrderProductPK implements Serializable {
+public class OrderProductPK  implements Serializable{
 
 	@JsonBackReference
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)

@@ -17,11 +17,6 @@
 
 	<properties>
 		<java.version>1.8</java.version>
-		<sonar.exclusions>
-			**/generated-sources/**,\
-			**/mypackage/MyVO.java
-		</sonar.exclusions>
-		<sonar.pitest.mode>active</sonar.pitest.mode>
 	</properties>
 
 	<dependencies>
@@ -51,13 +46,11 @@
 			<groupId>com.fasterxml.jackson.datatype</groupId>
 			<artifactId>jackson-datatype-jsr310</artifactId>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<scope>provided</scope>
 		</dependency>
-
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
@@ -89,44 +82,6 @@
 					<fork>true</fork>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<!-- newer versions do not work with Sonar -->
-				<version>0.7.4.201502262128</version>
-				<executions>
-					<execution>
-						<phase>initialize</phase>
-						<goals>
-							<goal>prepare-agent</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.pitest</groupId>
-				<artifactId>pitest-maven</artifactId>
-				<version>1.1.6</version>
-				<configuration>
-					<targetClasses>
-						<!-- specify which classes you want mutation coverage on -->
-						<targetClass>mypackage*</targetClass>
-					</targetClasses>
-					<targetTests>
-						<!-- if your project has *IT integration tests, and they are slow, 
-							you probably only want to include normal tests -->
-						<targetTest>mypackage*Test</targetTest>
-					</targetTests>
-					<outputFormats>
-						<!-- Sonar needs the XML output -->
-						<outputFormat>XML</outputFormat>
-						<outputFormat>HTML</outputFormat>
-					</outputFormats>
-					<!-- Sonar expects reports not to have timestamps -->
-					<timestampedReports>false</timestampedReports>
-				</configuration>
-			</plugin>
-			
 		</plugins>
 	</build>
 
